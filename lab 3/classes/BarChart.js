@@ -30,13 +30,12 @@ class BarChart {
             line (0,0, this.chartWidth,0)
 
         pop();
-    };
+    }
 
     renderDataBars(){
         push();
             translate(this.chartPosX, this.chartPosY);
             //Data Bars
-            push(); 
             translate(this.margin, 0)
             for(let i = 0; i<this.data.length; i++) {
                 let xPos = i*(this.barWidth + this.gap);
@@ -45,7 +44,7 @@ class BarChart {
                 rect(xPos,0,this.barWidth, -this.data[i][this.yValue]*this.scaler)
             }
         pop();
-    };
+    }
 
     renderLabels(){
         push();
