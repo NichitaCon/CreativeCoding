@@ -75,7 +75,8 @@ class BarChart {
             strokeWeight(this.axisThickness);
             let tickIncriment = this.chartHeight/5;
             for(let i=0; i<=5; i++){
-                line (0, -tickIncriment*i, -10, -tickIncriment)
+                // Can be improved, -10 can be made into a variable
+                line (0, -tickIncriment*i, -10, -tickIncriment*i)
             }
         pop();
     };

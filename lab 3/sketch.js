@@ -34,7 +34,7 @@ function draw(){
         chart.renderChartBars();
         chart.renderDataBars();
         chart.renderLabels();
-        // chart.renderTicks();
+        chart.renderTicks();
 
     });
 
