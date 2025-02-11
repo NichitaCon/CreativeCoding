@@ -38,8 +38,8 @@ class BarChart {
 
     renderDataBars(){
         
-        push()
-            translate(100, 100);
+        push();
+            translate(this.chartPosX, this.chartPosY);
             //Data Bars
             push();
             translate(this.margin, 0)

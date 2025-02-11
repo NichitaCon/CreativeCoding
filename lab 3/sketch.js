@@ -11,7 +11,7 @@ function setup(){
     angleMode(DEGREES);
     noLoop();
     cleanData();
-    charts.push(new BarChart(cleanedData,"Female","Age_Group", 400,400,10,105,2,50,450))
+    charts.push(new BarChart(cleanedData,"Female","Age_Group", 400,400,10,20,2,50,450))
 
 }
  
