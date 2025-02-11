@@ -19,16 +19,12 @@ class BarChart {
 
     renderChartBars(){
         push();
-
             //Chart Bars
             translate(this.chartPosX,this.chartPosY)
-            noFill();
-            text('hi', 50, 50);
             stroke(this.axisColour);
             strokeWeight(this.axisThickness);
             line (0,0,0, -this.chartHeight)
             line (0,0, this.chartWidth,0)
-
         pop();
     }
 
