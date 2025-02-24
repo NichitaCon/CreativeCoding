@@ -1,9 +1,12 @@
 let data;
+let dataNic;
 let cleanedData = [];
+let cleanedDataNic = [];
 let charts = [];
  
 function preload(){
     data = loadTable('data/Combined.csv', 'csv', 'header')
+    dataNic = loadTable('data/foodWaste.csv', 'csv', 'header')
 }
  
 function setup(){
@@ -11,6 +14,7 @@ function setup(){
     angleMode(DEGREES);
     noLoop();
     cleanData();
+    cleanDataNic();
     charts.push(new BarChart({
         data:cleanedData,
         yValue:"Female",
@@ -52,5 +56,26 @@ function cleanData(){
     }
  
 }
+
+function cleanDataNic(){
+    for (let i=0; i<dataNic.rows.length; i++){
+    cleanedDataNic.push(dataNic.rows[i].obj)
+    }
+ 
+    for (let i=0; i<cleanedDataNic.length; i++){
+        cleanedDataNic[i]["combined figures (kg/capita/year)"] = parseInt(cleanedDataNic[i]["combined figures (kg/capita/year)"]);
+        cleanedDataNic[i]["Household estimate (kg/capita/year)"] = parseInt(cleanedDataNic[i]["Household estimate (kg/capita/year)"]);
+        cleanedDataNic[i]["Household estimate (tonnes/year)"] = parseInt(cleanedDataNic[i]["Household estimate (tonnes/year)"]);
+        cleanedDataNic[i]["Retail estimate (kg/capita/year)"] = parseInt(cleanedDataNic[i]["Retail estimate (kg/capita/year)"]);
+        cleanedDataNic[i]["Retail estimate (tonnes/year)"] = parseInt(cleanedDataNic[i]["Retail estimate (tonnes/year)"]);
+        cleanedDataNic[i]["Food service estimate (kg/capita/year)"] = parseInt(cleanedDataNic[i]["Food service estimate (kg/capita/year)"]);
+        cleanedDataNic[i]["Food service estimate (tonnes/year)"] = parseInt(cleanedDataNic[i]["Food service estimate (tonnes/year)"]);
+
+    }
+ 
+}
+
+console.log(cleanedData);
+console.log(cleanedDataNic);
 
 // create window system
