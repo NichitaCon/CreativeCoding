@@ -10,8 +10,9 @@ class BarChart {
         this.axisThickness = obj.axisThickness || 1;
         this.chartPosX = obj.chartPosX || 50;
         this.chartPosY = obj.chartPosY || 450;
+        this.ticks = obj.ticks || 5;
         this.gap = (this.chartWidth - (this.data.length * this.barWidth) - (this.margin*2))/(this.data.length-1);
-        this.scaler = this.chartHeight/(max(cleanedData.map(row => row[this.yValue])))
+        this.scaler = this.chartHeight/(max(this.data.map(row => row[this.yValue])));
         this.axisColour = color(255, 255, 255);
         this.barColour = color(255, 255, 255);
         this.axisTextColour = color(255, 255, 255);
@@ -38,6 +39,7 @@ class BarChart {
                 fill(this.barColour);
                 noStroke()
                 rect(xPos,0,this.barWidth, -this.data[i][this.yValue]*this.scaler)
+                
             }
         pop();
     }
@@ -69,10 +71,18 @@ class BarChart {
             noFill()
             stroke(this.axisColour);
             strokeWeight(this.axisThickness);
-            let tickIncriment = this.chartHeight/5;
-            for(let i=0; i<=5; i++){
+            let tickIncriment = this.chartHeight / this.ticks;
+            let multiplier = max(this.data.map(row => row[this.yValue])) / this.ticks
+            for(let i=0; i<=this.ticks; i++){
                 // Can be improved, -10 can be made into a variable
                 line (0, -tickIncriment*i, -10, -tickIncriment*i)
+
+                push();
+                    noStroke();
+                    fill(255)
+                    textAlign(RIGHT,CENTER)
+                    text(Math.floor(i*multiplier), -15, -tickIncriment*i);
+                pop();
             }
         pop();
     };

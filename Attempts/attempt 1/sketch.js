@@ -2,6 +2,7 @@ let data;
 let dataNic;
 let cleanedData = [];
 let cleanedDataNic = [];
+let cleanedDataNicRegion = [];
 let charts = [];
  
 function preload(){
@@ -15,22 +16,40 @@ function setup(){
     noLoop();
     cleanData();
     cleanDataNic();
+    cleanDataNicRegion();
+
+    // Debugging: Log the cleanedDataNicRegion array
+    // console.log("cleanedDatan in setup:", cleanedData);
+    // console.log("cleanedDataNicRegion in setup:", cleanedDataNicRegion);
     charts.push(new BarChart({
-        data:cleanedData,
-        yValue:"Female",
-        xValue:"Age_Group",
-        chartHeight:400,
+        data:cleanedDataNicRegion,
+        yValue:"combined figures (kg/capita/year)",
+        xValue:"Region",
+        chartHeight:200,
         chartWidth:400,
         barWidth:10,
         margin:20,
         axisThickness:2,
         chartPosX:50,
-        chartPosY:450
-    }
+        chartPosY:400,
+        ticks:10
+    }));
 
-));
+    charts.push(new BarChart({
+        data:cleanedData,
+        yValue:"Female",
+        xValue:"Age_Group",
+        chartHeight:200,
+        chartWidth:200,
+        barWidth:10,
+        margin:20,
+        axisThickness:2,
+        chartPosX:250,
+        chartPosY:200,
+        ticks:3
+    }));
 
-}
+};
  
 function draw(){
     background(226,109,92);
@@ -75,7 +94,38 @@ function cleanDataNic(){
  
 }
 
-console.log(cleanedData);
-console.log(cleanedDataNic);
+function cleanDataNicRegion() {
+    let regionData = {};
+
+    // Aggregate data by region
+    for (let i = 0; i < cleanedDataNic.length; i++) {
+        // Get the region of the current data entry
+        let region = cleanedDataNic[i]["Region"];
+        // Get the combined figures (kg/capita/year) of the current data entry
+        let combinedFigures = cleanedDataNic[i]["combined figures (kg/capita/year)"];
+
+        // Check if the region already exists in the regionData object
+        if (regionData[region]) {
+            // If the region exists, add the combined figures to the existing value
+            regionData[region] += combinedFigures;
+        } else {
+            // If the region does not exist, create a new entry with the combined figures
+            regionData[region] = combinedFigures;
+        }
+    }
+
+    // Cleanup
+    for (let region in regionData) {
+        cleanedDataNicRegion.push({
+            Region: region,
+            "combined figures (kg/capita/year)": regionData[region]
+        });
+    }
+}
+
+console.log("Cleaned data :", cleanedData);
+console.log("Cleaned data Nichita :", cleanedDataNic);
+console.log("Cleaned data NicRegion :",cleanedDataNicRegion);
+
 
 // create window system
