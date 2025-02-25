@@ -11,7 +11,7 @@ function preload(){
 }
  
 function setup(){
-    createCanvas(500, 500);
+    createCanvas(1000, 1000);
     angleMode(DEGREES);
     noLoop();
     cleanData();
@@ -24,18 +24,19 @@ function setup(){
 
     charts.push(new StackedBarChart({
         data:cleanedDataNicRegion,
-        yValues:["combined figures (kg/capita/year)", "Household estimate (tonnes/year)"],
+        yValues:["Household estimate (tonnes/year)", "Food service estimate (tonnes/year)"],
         xValue:"Region",
         chartHeight:200,
         chartWidth:400,
         barWidth:10,
         margin:20,
         axisThickness:2,
-        chartPosX:100,
-        chartPosY:400,
+        chartPosX:300,
+        chartPosY:700,
         ticks:10,
-        barColours: [color(255,200,200), color(100,100,100)]
+        barColours: [color(0,200,0), color(100,0,0)]
     }));
+    
 
     
     charts.push(new BarChart({

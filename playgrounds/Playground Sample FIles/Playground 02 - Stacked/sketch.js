@@ -41,45 +41,46 @@ function setup(){
 function draw(){
    background(200);
 
-   push()
-   translate(chartPosX,chartPosY)
-   noFill()
-   stroke(axisColour);
-   strokeWeight(axisThickness)
-   line (0,0,0,-chartHeight)
-   line (0,0,chartWidth,0)
-   
-   push()
-   translate(margin,0)
-   for(let i=0; i<cleanedData.length; i++){
+push()
+    translate(chartPosX,chartPosY)
+    noFill()
+    stroke(axisColour);
+    strokeWeight(axisThickness)
+    line (0,0,0,-chartHeight)
+    line (0,0,chartWidth,0)
+
+    push()
+        translate(margin,0)
+        for(let i=0; i<cleanedData.length; i++){
         let xPos = (barWidth + gap)*i;
         push()
-        translate(xPos,0)
-        
-        push()
-        for(let j=0; j<yValues.length; j++){
-            fill(barColours[j]);
-            noStroke();
-           
-            rect (0,0,barWidth, -cleanedData[i][yValues[j]]*scaler);
-            translate(0,-cleanedData[i][yValues[j]]*scaler - 1)
-        }
-        pop()
+            translate(xPos,0)
+
+            push()
+                for(let j=0; j<yValues.length; j++){
+                fill(barColours[j]);
+                noStroke();
+
+                rect (0,0,barWidth, -cleanedData[i][yValues[j]]*scaler);
+                translate(0,-cleanedData[i][yValues[j]]*scaler - 1)
+                }
+            pop()
         pop()
 
         fill(axisTextColour);
         noStroke();
         textAlign(LEFT,CENTER);
         textSize(8);
+        
         push()
-        translate(xPos + (barWidth/2),10)
-        rotate(60)
-        text (cleanedData[i][xValue], 0, 0);
+            translate(xPos + (barWidth/2),10)
+            rotate(60)
+            text (cleanedData[i][xValue], 0, 0);
         pop()
     }
-   pop()
+    pop()
 
-   pop()
+pop()
    
 
 }

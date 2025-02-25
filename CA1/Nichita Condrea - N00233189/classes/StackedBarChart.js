@@ -14,7 +14,7 @@ class StackedBarChart {
         this.barColours = obj.barColours || [color(255, 255, 255), color(0, 255, 255)];
 
         this.gap = (this.chartWidth - (this.data.length * this.barWidth) - (this.margin*2))/(this.data.length-1);
-        this.scaler = this.chartHeight/(max(this.data.map(row => row[this.yValue])));
+        this.scaler = this.chartHeight/(max(this.data.map(row => row[this.yValues[0]])) + max(this.data.map(row => row[this.yValues[1]])));
         this.axisColour = color(255, 255, 255);
 
         this.axisTextColour = color(255, 255, 255);
@@ -23,6 +23,7 @@ class StackedBarChart {
     renderChartBars(){
         push();
         console.log(this.barColours)
+        console.log(this.scaler)
             //Chart Bars
             translate(this.chartPosX,this.chartPosY)
             stroke(this.axisColour);
@@ -34,19 +35,23 @@ class StackedBarChart {
 
     renderDataBars(){
         push()
+        translate(this.chartPosX,this.chartPosY)
             push()
-            console.log(this.yValues)
+            translate(this.margin, 0)
             for (let i = 0; i<this.data.length; i++){
                 let xPos = (this.barWidth + this.gap)*i;
-                translate(xPos,0)
-                console.log(i)
-                for(let j=0; j<this.yValues.length; j++){
-                    fill(255);
-                    noStroke();
-                
-                    rect (0,0,this.barWidth, -this.data[i][this.yValues[j]]);
-                    translate(0,-this.data[i][this.yValues[j]])
-                }
+                push();
+                    translate(xPos,0)
+
+                    for(let j=0; j<this.yValues.length; j++){
+                        console.log("i:", i, "j", j)
+                        fill(this.barColours[j]);
+                        noStroke();
+                    
+                        rect (0,0,this.barWidth, -this.data[i][this.yValues[j]]*this.scaler);
+                        translate(0,-this.data[i][this.yValues[j]]*this.scaler - 1);
+                    }
+                pop();
             }
             pop()
         pop()
@@ -80,7 +85,6 @@ class StackedBarChart {
             stroke(this.axisColour);
             strokeWeight(this.axisThickness);
             let tickIncriment = this.chartHeight / this.ticks;
-            console.log("yvalues1", this.yValues[0], "yValues2", this.yValues[1])
             let multiplier = max(this.data.map(row => row[this.yValues[0]])) + max(this.data.map(row => row[this.yValues[1]])) / this.ticks
             for(let i=0; i<=this.ticks; i++){
                 // Can be improved, -10 can be made into a variable
