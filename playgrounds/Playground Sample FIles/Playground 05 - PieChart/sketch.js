@@ -50,23 +50,20 @@ function draw() {
 	background(200);
 
 	push();
-	translate(chartPosX, chartPosY);
-
-	
-
-	for(let i = 0; i<myNewArray.length; i++){
-		fill(random(255), 200, random(0))
-		stroke(255);
-		let start = 0;
-		let end = ((myNewArray[i]/total)*360);
-		arc (0,0, 200, 200, start, end,PIE)
-		rotate(end);
-	}
-	textSize(30)
-	fill(0)
-	noStroke()
-	textFont(font)
-	text("NICHITAAA",0,0)
+        translate(chartPosX, chartPosY);
+        for(let i = 0; i<myNewArray.length; i++){
+            fill(random(255), 200, random(0))
+            stroke(255);
+            let start = 0;
+            let end = ((myNewArray[i]/total)*360);
+            arc (0,0, 200, 200, start, end,PIE)
+            rotate(end);
+        }
+        textSize(30)
+        fill(0)
+        noStroke()
+        textFont(font)
+        text("NICHITAAA",0,0)
 	pop();
 
 	

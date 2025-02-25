@@ -53,27 +53,27 @@ function draw(){
     background(200);
 
     push()
-    translate(chartPosX,chartPosY)
-    noFill()
-    stroke(axisColour);
-    strokeWeight(axisThickness)
-    line (0,0,0,-chartHeight)
-    line (0,0,chartWidth,0)
+        translate(chartPosX,chartPosY)
+        noFill()
+        stroke(axisColour);
+        strokeWeight(axisThickness)
+        line (0,0,0,-chartHeight)
+        line (0,0,chartWidth,0)
 
-    push()
-    translate(margin,0)
-        for(let i = 0; i<cleanedData.length; i++){
-            push();
-            translate((gap * (barWidth*2))*i, 0)
-            for(let j = 0; j<yValues.length; j++){
-                noStroke()
-                fill(random(255), 0, 0)
-                rect(j*10,0, barWidth, cleanedData[i][yValues[j]]*scaler);
-            }
-            pop()
-            
-        }
-    pop()
+        push()
+            translate(margin,0)
+                for(let i = 0; i<cleanedData.length; i++){
+                    push();
+                    translate((gap * (barWidth*2))*i, 0)
+                    for(let j = 0; j<yValues.length; j++){
+                        noStroke()
+                        fill(random(255), 0, 0)
+                        rect(j*10,0, barWidth, cleanedData[i][yValues[j]]*scaler);
+                    }
+                    pop()
+                    
+                }
+        pop()
 
     pop()
    

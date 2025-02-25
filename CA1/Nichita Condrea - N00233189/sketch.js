@@ -30,11 +30,12 @@ function setup(){
         barWidth:10,
         margin:20,
         axisThickness:2,
-        chartPosX:50,
+        chartPosX:100,
         chartPosY:400,
         ticks:10
     }));
 
+    
     charts.push(new BarChart({
         data:cleanedData,
         yValue:"Female",
@@ -48,7 +49,7 @@ function setup(){
         chartPosY:200,
         ticks:3
     }));
-
+    
 };
  
 function draw(){
@@ -102,15 +103,27 @@ function cleanDataNicRegion() {
         // Get the region of the current data entry
         let region = cleanedDataNic[i]["Region"];
         // Get the combined figures (kg/capita/year) of the current data entry
-        let combinedFigures = cleanedDataNic[i]["combined figures (kg/capita/year)"];
+        let combinedFiguresKgCapita = cleanedDataNic[i]["combined figures (kg/capita/year)"];
+        let houseHoldEstimateTonnes = cleanedDataNic[i]["Household estimate (tonnes/year)"];
+        let retailEstimateTonnes = cleanedDataNic[i]["Retail estimate (tonnes/year)"];
+        let foodServiceEstimateTonnes = cleanedDataNic[i]["Food service estimate (tonnes/year)"];
 
         // Check if the region already exists in the regionData object
         if (regionData[region]) {
             // If the region exists, add the combined figures to the existing value
-            regionData[region] += combinedFigures;
+            regionData[region].combinedFiguresKgCapita += combinedFiguresKgCapita;
+            regionData[region].houseHoldEstimateTonnes += houseHoldEstimateTonnes;
+            regionData[region].retailEstimateTonnes += retailEstimateTonnes;
+            regionData[region].foodServiceEstimateTonnes += foodServiceEstimateTonnes;
         } else {
             // If the region does not exist, create a new entry with the combined figures
-            regionData[region] = combinedFigures;
+            regionData[region] = {
+                combinedFiguresKgCapita: combinedFiguresKgCapita,
+                houseHoldEstimateTonnes: houseHoldEstimateTonnes,
+                retailEstimateTonnes: retailEstimateTonnes,
+                foodServiceEstimateTonnes: foodServiceEstimateTonnes
+            }
+
         }
     }
 
@@ -118,7 +131,10 @@ function cleanDataNicRegion() {
     for (let region in regionData) {
         cleanedDataNicRegion.push({
             Region: region,
-            "combined figures (kg/capita/year)": regionData[region]
+            "combined figures (kg/capita/year)": regionData[region].combinedFiguresKgCapita,
+            "Household estimate (tonnes/year)": regionData[region].houseHoldEstimateTonnes,
+            "Retail estimate (tonnes/year)": regionData[region].retailEstimateTonnes,
+            "Food service estimate (tonnes/year)": regionData[region].foodServiceEstimateTonnes
         });
     }
 }
