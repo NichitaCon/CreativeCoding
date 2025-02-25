@@ -21,9 +21,10 @@ function setup(){
     // Debugging: Log the cleanedDataNicRegion array
     // console.log("cleanedDatan in setup:", cleanedData);
     // console.log("cleanedDataNicRegion in setup:", cleanedDataNicRegion);
-    charts.push(new BarChart({
+
+    charts.push(new StackedBarChart({
         data:cleanedDataNicRegion,
-        yValue:"combined figures (kg/capita/year)",
+        yValues:["combined figures (kg/capita/year)", "Household estimate (tonnes/year)"],
         xValue:"Region",
         chartHeight:200,
         chartWidth:400,
@@ -32,7 +33,8 @@ function setup(){
         axisThickness:2,
         chartPosX:100,
         chartPosY:400,
-        ticks:10
+        ticks:10,
+        barColours: [color(255,200,200), color(100,100,100)]
     }));
 
     
