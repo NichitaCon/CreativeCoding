@@ -113,6 +113,18 @@ function setup(){
         axisTextColour: color(0),
         fullTickLength: true
     }));
+
+    charts.push(new PieChart({
+        data:cleanedDataNicRegion,
+        yValue:"Food service estimate (kg/capita/year)",
+        xValue:"Region",
+        scale:300,
+        barWidth:40,
+        chartPosX:700,
+        chartPosY:1450,
+        barColour: color(23, 103, 184),
+        textColour: color(0),
+    }));
     
 
     
@@ -124,10 +136,14 @@ function draw(){
         if (typeof chart.renderLegend === "function") {
             chart.renderLegend();
         }
+        if (typeof chart.renderChartBars === "function") {
+            chart.renderChartBars();
+        }
+        if (typeof chart.renderChartBars === "function") {
+            chart.renderTicks();
+        }
         chart.renderDataBars();
-        chart.renderChartBars();
         chart.renderLabels();
-        chart.renderTicks();
 
     });
 

@@ -1,66 +1,93 @@
 class PieChart {
     constructor(obj){
-        this.data = obj.data;
+        this.data = [...obj.data];
         this.yValue = obj.yValue;
         this.xValue = obj.xValue;
-        this.chartHeight = obj.chartHeight || 300;
-        this.chartWidth = obj.chartWidth || 300;
+        this.scale = obj.scale;
         this.barWidth = obj.barWidth || 10;
-        this.margin = obj.margin || 10;
-        this.axisThickness = obj.axisThickness || 1;
         this.chartPosX = obj.chartPosX || 50;
         this.chartPosY = obj.chartPosY || 450;
-        this.ticks = obj.ticks || 5;
-        this.gap = (this.chartWidth - (this.data.length * this.barWidth) - (this.margin*2))/(this.data.length-1);
-        this.scaler = this.chartHeight/(max(this.data.map(row => row[this.yValue])));
-        this.axisColour = color(255, 255, 255);
-        this.barColour = color(255, 255, 255);
-        this.axisTextColour = color(255, 255, 255);
+        this.barColour = obj.barColour || color(0);
+        this.textColour = obj.textColour || color(0);
+        this.maxArray = (this.data.map(row => row[this.yValue]));
+        this.maxNum = max(this.maxArray);
+        this.scaler = 270/this.maxNum
+
+        this.data.sort((a, b) => b[this.yValue] - a[this.yValue]);
     }
 
+
+    renderLegend(){
+        push();
+            translate(this.chartPosX,this.chartPosY)
+            push();
+                translate(0,-this.scale*.6)
+                //TopLegend
+                fill(this.textColour);
+                textAlign(CENTER,CENTER)
+                textSize(20)
+                text(this.yValue,15,0)
+            pop();
+        pop();
+    }
 
     renderDataBars(){
         push();
             translate(this.chartPosX, this.chartPosY);
-            for(let i = 0; i<this.data.length; i++){
-                console.log(i)
-                fill(random(255), 200, random(0))
-                stroke(255);
-                let start = 0;
-                let end = ((this.data[i]/total)*360);
-                arc (0,0, 200, 200, start, end,PIE)
-                rotate(end);
-            }
-            textSize(30)
-            fill(0)
-            noStroke()
-            textFont(font)
-            text("NICHITAAA",0,0)
+
+
+            let start = 0
+            let end = 270
+            console.log(this.chartHeight)
+            push();
+            rotate(-90)
+                for(let i = 0; i<this.data.length; i++){
+                    fill(this.barColour)
+                    stroke(0);
+                    let start = 0;
+                    let end = (this.data[i][this.yValue]*this.scaler);
+                    //Drawing main Arc
+                    arc (0,0, this.scale, this.scale, start, end,PIE)
+                    fill(255)
+                    //Drawing BackFill "Fake" Arc
+                    noStroke()
+                    arc (0,0, this.scale-this.barWidth, this.scale-this.barWidth, start, 270,PIE)
+                    textSize(7);                    
+                    scale(.85)
+                }
+            pop();
+
         pop();
 
     }
 
 
-    // renderLabels(){
-    //     push();
-    //         translate(this.chartPosX, this.chartPosY);
-    //         push();
-    //             translate(this.margin, 0)
-    //             for(let i = 0; i<this.data.length; i++) {
-    //                 let xPos = i*(this.barWidth + this.gap);
-    //                 textSize(7);
-    //                 fill(255);
-    //                 noStroke()
-    //                 textAlign(LEFT,CENTER)
-    //                 push()
-    //                     translate(xPos + (this.barWidth/2),10)
-    //                     rotate(45)
-    //                     text(this.data[i][this.xValue], 0, 0);
-    //                 pop()
-    //             }
-    //         pop();
-    //     pop();
-    // };
+    renderLabels(){
+
+        let textPos =
+        .985*((.5*this.scale)-(.2*this.barWidth))
+
+        push();
+            translate(this.chartPosX, this.chartPosY);
+            rotate(-90)
+            push();
+                for(let i = 0; i<this.data.length; i++) {
+                    textAlign(RIGHT,CENTER)
+
+                        push()
+                            translate(textPos,-5)
+                            rotate(90)
+                            textSize(15);
+                            fill(this.textColour)
+                            text(this.data[i][this.xValue] + ": " + this.data[i][this.yValue], 0, i*this.data.length/(.5*this.scale));
+                            
+                        pop()
+
+                    scale(.85)
+                }
+            pop();
+        pop();
+    };
 
         
 }

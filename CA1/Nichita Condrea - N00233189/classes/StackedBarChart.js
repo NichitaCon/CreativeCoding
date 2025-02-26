@@ -62,6 +62,7 @@ class StackedBarChart {
         translate(this.chartPosX,this.chartPosY)
             push()
             translate(this.margin, 0)
+            console.log(this.scaler)
             for (let i = 0; i<this.data.length; i++){
                 let xPos = (this.barWidth + this.gap)*i;
                 push();
