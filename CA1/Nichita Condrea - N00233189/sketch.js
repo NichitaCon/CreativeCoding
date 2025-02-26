@@ -11,7 +11,7 @@ function preload(){
 }
  
 function setup(){
-    createCanvas(1000, 1000);
+    createCanvas(1000, 3000);
     angleMode(DEGREES);
     noLoop();
     cleanData();
@@ -21,18 +21,73 @@ function setup(){
     // Debugging: Log the cleanedDataNicRegion array
     // console.log("cleanedDatan in setup:", cleanedData);
     // console.log("cleanedDataNicRegion in setup:", cleanedDataNicRegion);
+    charts.push(new BarChart({
+        data:cleanedData,
+        yValue:"Female",
+        xValue:"Age_Group",
+        chartHeight:200,
+        chartWidth:200,
+        barWidth:10,
+        margin:20,
+        axisThickness:2,
+        chartPosX:200,
+        chartPosY:250,
+        ticks:4,
+        axisColour: color(0),
+        barColour: color(255),
+        axisTextColour: color(0),
+        fullTickLength: false
+    }));
+
+    charts.push(new BarChart({
+        data:cleanedDataNicRegion,
+        yValue:"Retail estimate (tonnes/year)",
+        xValue:"Region",
+        chartHeight:200,
+        chartWidth:200,
+        barWidth:10,
+        margin:20,
+        axisThickness:2,
+        chartPosX:500,
+        chartPosY:250,
+        ticks:4,
+        axisColour: color(0),
+        barColour: color(255),
+        axisTextColour: color(0),
+        fullTickLength: false
+    }));
+    
 
     charts.push(new StackedBarChart({
         data:cleanedDataNicRegion,
-        yValues:["Household estimate (tonnes/year)", "Food service estimate (tonnes/year)"],
+        yValues:["Retail estimate (tonnes/year)", "Food service estimate (tonnes/year)"],
         xValue:"Region",
         chartHeight:200,
-        chartWidth:400,
+        chartWidth:500,
         barWidth:10,
         margin:20,
         axisThickness:1,
-        chartPosX:300,
+        chartPosX:250,
         chartPosY:700,
+        ticks:10,
+        fullTickLength: true,
+        barColours: [color(23, 103, 184), color(255, 205, 10)],
+        axisTextColour: color(0),
+        axisColour: color(0),
+        hundredPercent: false
+    }));
+
+    charts.push(new StackedBarChart({
+        data:cleanedDataNicRegion,
+        yValues:["Retail estimate (tonnes/year)", "Food service estimate (tonnes/year)"],
+        xValue:"Region",
+        chartHeight:200,
+        chartWidth:500,
+        barWidth:10,
+        margin:20,
+        axisThickness:1,
+        chartPosX:250,
+        chartPosY:1100,
         ticks:10,
         fullTickLength: true,
         barColours: [color(23, 103, 184), color(255, 205, 10)],
@@ -43,27 +98,16 @@ function setup(){
     
 
     
-    charts.push(new BarChart({
-        data:cleanedData,
-        yValue:"Female",
-        xValue:"Age_Group",
-        chartHeight:200,
-        chartWidth:200,
-        barWidth:10,
-        margin:20,
-        axisThickness:2,
-        chartPosX:250,
-        chartPosY:200,
-        ticks:3
-    }));
-    
 };
  
 function draw(){
     background(200);
     charts.forEach(chart => {
-        chart.renderChartBars();
+        if (typeof chart.renderLegend === "function") {
+            chart.renderLegend();
+        }
         chart.renderDataBars();
+        chart.renderChartBars();
         chart.renderLabels();
         chart.renderTicks();
 
@@ -138,7 +182,7 @@ function cleanDataNicRegion() {
                 houseHoldEstimateTonnes: houseHoldEstimateTonnes,
                 retailEstimateTonnes: retailEstimateTonnes,
                 foodServiceEstimateTonnes: foodServiceEstimateTonnes
-            }
+            };
         }
     }
 

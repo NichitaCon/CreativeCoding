@@ -16,16 +16,34 @@ class StackedBarChart {
         this.axisTextColour = obj.axisTextColour || color(0);
         this.axisColour = obj.axisColour || color(0);
         this.hundredPercent = obj.hundredPercent || false;
-        this.maxArray = (this.data.map(row => row["Household estimate (tonnes/year)"] + row["Food service estimate (tonnes/year)"]));
+        this.maxArray = (this.data.map(row => row[this.yValues[0]] + row[this.yValues[1]]));
         this.maxNum = max(this.maxArray);
         this.gap = (this.chartWidth - (this.data.length * this.barWidth) - (this.margin*2))/(this.data.length-1);
         this.scaler = this.chartHeight/this.maxNum
-
-
-
-
-
         
+    }
+
+    renderLegend(){
+        push();
+            translate(this.chartPosX,this.chartPosY)
+            push();
+                translate(this.chartWidth/3, -this.chartHeight-40)
+                //TopLegend
+                fill(this.barColours[0])
+                rect(0,-10,10,10)
+                fill(this.axisTextColour);
+                text(this.yValues[0],15,0)
+                //BottomLegend
+                push();
+                    fill(this.barColours[1])
+                    translate(0,15)
+                    rect(0,-10,10,10)
+                    fill(this.axisTextColour);
+                    text(this.yValues[1],15,0)
+                pop();
+                
+            pop();
+        pop();
     }
 
     renderChartBars(){
@@ -51,7 +69,6 @@ class StackedBarChart {
 
                     if (this.hundredPercent == false){
                         for(let j=0; j<this.yValues.length; j++){
-                            console.log(this.maxArray[i])
                             fill(this.barColours[j]);
                             noStroke();
                             rect (0,0,this.barWidth, -this.data[i][this.yValues[j]]*this.scaler);
@@ -123,9 +140,9 @@ class StackedBarChart {
                     fill(this.axisTextColour)
                     textAlign(RIGHT,CENTER)
                     if (this.hundredPercent == false) {
-                        text(Math.floor(i*multiplier), -5, -tickIncriment*i);
+                        text(Math.floor(i*multiplier), -10, -tickIncriment*i);
                     }else{
-                        text((i*multiplier) + "%", -5, -tickIncriment*i);
+                        text((i*multiplier) + "%", -10, -tickIncriment*i);
                     }
                     
                 pop();

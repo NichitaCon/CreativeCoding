@@ -13,19 +13,23 @@ class BarChart {
         this.ticks = obj.ticks || 5;
         this.gap = (this.chartWidth - (this.data.length * this.barWidth) - (this.margin*2))/(this.data.length-1);
         this.scaler = this.chartHeight/(max(this.data.map(row => row[this.yValue])));
-        this.axisColour = color(255, 255, 255);
-        this.barColour = color(255, 255, 255);
-        this.axisTextColour = color(255, 255, 255);
+        this.axisColour = obj.axisColour || color(255, 255, 255);
+        this.barColour = obj.barColour || color(255, 255, 255);
+        this.axisTextColour = obj.axisTextColour || color(255, 255, 255);
+        this.fullTickLength = obj.fullTickLength || false;
     }
 
-    renderChartBars(){
+
+    renderLegend(){
         push();
-            //Chart Bars
             translate(this.chartPosX,this.chartPosY)
-            stroke(this.axisColour);
-            strokeWeight(this.axisThickness);
-            line (0,0,0, -this.chartHeight)
-            line (0,0, this.chartWidth,0)
+            push();
+                translate(this.chartWidth/2, -this.chartHeight-30)
+                //TopLegend
+                fill(this.axisTextColour);
+                textAlign(CENTER,CENTER)
+                text(this.yValue,15,0)
+            pop();
         pop();
     }
 
@@ -44,6 +48,18 @@ class BarChart {
         pop();
     }
 
+    renderChartBars(){
+        push();
+            //Chart Bars
+            translate(this.chartPosX,this.chartPosY)
+            stroke(this.axisColour);
+            strokeWeight(this.axisThickness);
+            line (0,0,0, -this.chartHeight)
+            line (0,0, this.chartWidth,0)
+        pop();
+    }
+
+
     renderLabels(){
         push();
             translate(this.chartPosX, this.chartPosY);
@@ -52,7 +68,7 @@ class BarChart {
                 for(let i = 0; i<this.data.length; i++) {
                     let xPos = i*(this.barWidth + this.gap);
                     textSize(7);
-                    fill(255);
+                    fill(this.axisTextColour);
                     noStroke()
                     textAlign(LEFT,CENTER)
                     push()
@@ -71,15 +87,22 @@ class BarChart {
             noFill()
             stroke(this.axisColour);
             strokeWeight(this.axisThickness);
+            let tickLength;
+            if (this.fullTickLength == true) {
+                tickLength = this.chartWidth
+            }else {
+                tickLength = -10
+            }
+
             let tickIncriment = this.chartHeight / this.ticks;
             let multiplier = max(this.data.map(row => row[this.yValue])) / this.ticks
             for(let i=0; i<=this.ticks; i++){
                 // Can be improved, -10 can be made into a variable
-                line (0, -tickIncriment*i, -10, -tickIncriment*i)
+                line (0, -tickIncriment*i, tickLength, -tickIncriment*i)
 
                 push();
                     noStroke();
-                    fill(255)
+                    fill(this.axisTextColour)
                     textAlign(RIGHT,CENTER)
                     text(Math.floor(i*multiplier), -15, -tickIncriment*i);
                 pop();
