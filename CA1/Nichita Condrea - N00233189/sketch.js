@@ -37,7 +37,8 @@ function setup(){
         fullTickLength: true,
         barColours: [color(23, 103, 184), color(255, 205, 10)],
         axisTextColour: color(0),
-        axisColour: color(0)
+        axisColour: color(0),
+        hundredPercent: true
     }));
     
 

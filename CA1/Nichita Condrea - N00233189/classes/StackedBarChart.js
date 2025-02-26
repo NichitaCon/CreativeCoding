@@ -15,9 +15,9 @@ class StackedBarChart {
         this.barColours = obj.barColours || [color(255, 255, 255), color(0, 255, 255)];
         this.axisTextColour = obj.axisTextColour || color(0);
         this.axisColour = obj.axisColour || color(0);
-
-        this.maxNum = max(this.data.map(row => 
-        row["Household estimate (tonnes/year)"] + row["Food service estimate (tonnes/year)"]));
+        this.hundredPercent = obj.hundredPercent || false;
+        this.maxArray = (this.data.map(row => row["Household estimate (tonnes/year)"] + row["Food service estimate (tonnes/year)"]));
+        this.maxNum = max(this.maxArray);
         this.gap = (this.chartWidth - (this.data.length * this.barWidth) - (this.margin*2))/(this.data.length-1);
         this.scaler = this.chartHeight/this.maxNum
 
@@ -49,11 +49,23 @@ class StackedBarChart {
                 push();
                     translate(xPos,0)
 
-                    for(let j=0; j<this.yValues.length; j++){
-                        fill(this.barColours[j]);
-                        noStroke();
-                        rect (0,0,this.barWidth, -this.data[i][this.yValues[j]]*this.scaler);
-                        translate(0,-this.data[i][this.yValues[j]]*this.scaler);
+                    if (this.hundredPercent == false){
+                        for(let j=0; j<this.yValues.length; j++){
+                            console.log(this.maxArray[i])
+                            fill(this.barColours[j]);
+                            noStroke();
+                            rect (0,0,this.barWidth, -this.data[i][this.yValues[j]]*this.scaler);
+                            translate(0,-this.data[i][this.yValues[j]]*this.scaler);
+                        }
+                    }else {
+                        for(let j=0; j<this.yValues.length; j++){
+                            fill(this.barColours[j]);
+                            noStroke();
+    
+    
+                            rect (0,0,this.barWidth, -this.data[i][this.yValues[j]]*this.chartHeight/this.maxArray[i]);
+                            translate(0,-this.data[i][this.yValues[j]]*this.chartHeight/this.maxArray[i]);
+                        }
                     }
                 pop();
             }
@@ -95,7 +107,13 @@ class StackedBarChart {
                 tickLength = -10
             }
             let tickIncriment = this.chartHeight / this.ticks;
-            let multiplier = this.maxNum / this.ticks;
+            let multiplier;
+            if (this.hundredPercent == false) {
+                multiplier = this.maxNum / this.ticks;
+            }else {
+                multiplier = 100 / this.ticks
+            }
+             
             for(let i=0; i<=this.ticks; i++){
                 // Can be improved, -10 can be made into a variable
                 line (0, -tickIncriment*i, tickLength, -tickIncriment*i)
@@ -104,7 +122,12 @@ class StackedBarChart {
                     noStroke();
                     fill(this.axisTextColour)
                     textAlign(RIGHT,CENTER)
-                    text(Math.floor(i*multiplier), -15, -tickIncriment*i);
+                    if (this.hundredPercent == false) {
+                        text(Math.floor(i*multiplier), -5, -tickIncriment*i);
+                    }else{
+                        text((i*multiplier) + "%", -5, -tickIncriment*i);
+                    }
+                    
                 pop();
             }
         pop();
