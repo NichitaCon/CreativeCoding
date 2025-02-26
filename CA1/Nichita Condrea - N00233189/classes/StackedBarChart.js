@@ -10,20 +10,26 @@ class StackedBarChart {
         this.axisThickness = obj.axisThickness || 1;
         this.chartPosX = obj.chartPosX || 50;
         this.chartPosY = obj.chartPosY || 450;
-        this.ticks = obj.ticks || 5;
+        this.ticks = obj.ticks || 0;
+        this.fullTickLength = obj.fullTickLength || false;
         this.barColours = obj.barColours || [color(255, 255, 255), color(0, 255, 255)];
+        this.axisTextColour = obj.axisTextColour || color(0);
+        this.axisColour = obj.axisColour || color(0);
 
+        this.maxNum = max(this.data.map(row => 
+        row["Household estimate (tonnes/year)"] + row["Food service estimate (tonnes/year)"]));
         this.gap = (this.chartWidth - (this.data.length * this.barWidth) - (this.margin*2))/(this.data.length-1);
-        this.scaler = this.chartHeight/(max(this.data.map(row => row[this.yValues[0]])) + max(this.data.map(row => row[this.yValues[1]])));
-        this.axisColour = color(255, 255, 255);
+        this.scaler = this.chartHeight/this.maxNum
 
-        this.axisTextColour = color(255, 255, 255);
+
+
+
+
+        
     }
 
     renderChartBars(){
         push();
-        console.log(this.barColours)
-        console.log(this.scaler)
             //Chart Bars
             translate(this.chartPosX,this.chartPosY)
             stroke(this.axisColour);
@@ -44,12 +50,10 @@ class StackedBarChart {
                     translate(xPos,0)
 
                     for(let j=0; j<this.yValues.length; j++){
-                        console.log("i:", i, "j", j)
                         fill(this.barColours[j]);
                         noStroke();
-                    
                         rect (0,0,this.barWidth, -this.data[i][this.yValues[j]]*this.scaler);
-                        translate(0,-this.data[i][this.yValues[j]]*this.scaler - 1);
+                        translate(0,-this.data[i][this.yValues[j]]*this.scaler);
                     }
                 pop();
             }
@@ -65,7 +69,7 @@ class StackedBarChart {
                 for(let i = 0; i<this.data.length; i++) {
                     let xPos = i*(this.barWidth + this.gap);
                     textSize(7);
-                    fill(255);
+                    fill(this.axisTextColour);
                     noStroke()
                     textAlign(LEFT,CENTER)
                     push()
@@ -84,15 +88,21 @@ class StackedBarChart {
             noFill()
             stroke(this.axisColour);
             strokeWeight(this.axisThickness);
+            let tickLength;
+            if (this.fullTickLength == true) {
+                tickLength = this.chartWidth
+            }else {
+                tickLength = -10
+            }
             let tickIncriment = this.chartHeight / this.ticks;
-            let multiplier = max(this.data.map(row => row[this.yValues[0]])) + max(this.data.map(row => row[this.yValues[1]])) / this.ticks
+            let multiplier = this.maxNum / this.ticks;
             for(let i=0; i<=this.ticks; i++){
                 // Can be improved, -10 can be made into a variable
-                line (0, -tickIncriment*i, -10, -tickIncriment*i)
+                line (0, -tickIncriment*i, tickLength, -tickIncriment*i)
 
                 push();
                     noStroke();
-                    fill(255)
+                    fill(this.axisTextColour)
                     textAlign(RIGHT,CENTER)
                     text(Math.floor(i*multiplier), -15, -tickIncriment*i);
                 pop();

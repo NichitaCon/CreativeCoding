@@ -30,11 +30,14 @@ function setup(){
         chartWidth:400,
         barWidth:10,
         margin:20,
-        axisThickness:2,
+        axisThickness:1,
         chartPosX:300,
         chartPosY:700,
         ticks:10,
-        barColours: [color(0,200,0), color(100,0,0)]
+        fullTickLength: true,
+        barColours: [color(23, 103, 184), color(255, 205, 10)],
+        axisTextColour: color(0),
+        axisColour: color(0)
     }));
     
 
@@ -56,7 +59,7 @@ function setup(){
 };
  
 function draw(){
-    background(226,109,92);
+    background(200);
     charts.forEach(chart => {
         chart.renderChartBars();
         chart.renderDataBars();
