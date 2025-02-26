@@ -95,11 +95,29 @@ function setup(){
         axisColour: color(0),
         hundredPercent: true
     }));
+
+    charts.push(new BarChartHorizontal({
+        data:cleanedDataNicRegion,
+        yValue:"Region",
+        xValue:"Retail estimate (tonnes/year)",
+        chartHeight:400,
+        chartWidth:200,
+        barWidth:10,
+        margin:20,
+        axisThickness:1,
+        chartPosX:200,
+        chartPosY:1650,
+        ticks:4,
+        axisColour: color(0),
+        barColour: color(255),
+        axisTextColour: color(0),
+        fullTickLength: true
+    }));
     
 
     
 };
- 
+
 function draw(){
     background(200);
     charts.forEach(chart => {
