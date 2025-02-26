@@ -97,7 +97,6 @@ class BarChart {
             let tickIncriment = this.chartHeight / this.ticks;
             let multiplier = max(this.data.map(row => row[this.yValue])) / this.ticks
             for(let i=0; i<=this.ticks; i++){
-                // Can be improved, -10 can be made into a variable
                 line (0, -tickIncriment*i, tickLength, -tickIncriment*i)
 
                 push();

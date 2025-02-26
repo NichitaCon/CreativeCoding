@@ -114,7 +114,7 @@ function setup(){
         fullTickLength: true
     }));
 
-    charts.push(new PieChart({
+    charts.push(new RadialBarChart({
         data:cleanedDataNicRegion,
         yValue:"Food service estimate (kg/capita/year)",
         xValue:"Region",
@@ -133,6 +133,7 @@ function setup(){
 function draw(){
     background(200);
     charts.forEach(chart => {
+        //Error avoiding, checking if function exists in the class, if it does, run it, if it doesnt, ignore it
         if (typeof chart.renderLegend === "function") {
             chart.renderLegend();
         }
@@ -183,11 +184,11 @@ function cleanDataNic(){
 function cleanDataNicRegion() {
     let regionData = {};
 
-    // Aggregate data by region
     for (let i = 0; i < cleanedDataNic.length; i++) {
         // Get the region of the current data entry
         let region = cleanedDataNic[i]["Region"];
-        // Get the combined figures (kg/capita/year) of the current data entry
+
+        // Get each of the figures for each data entry
         let combinedFiguresKgCapita = cleanedDataNic[i]["combined figures (kg/capita/year)"];
         let houseHoldEstimateKgCapita = cleanedDataNic[i]["Household estimate (kg/capita/year)"];
         let retailEstimateKgCapita = cleanedDataNic[i]["Retail estimate (kg/capita/year)"];
@@ -238,6 +239,3 @@ function cleanDataNicRegion() {
 console.log("Cleaned data :", cleanedData);
 console.log("Cleaned data Nichita :", cleanedDataNic);
 console.log("Cleaned data NicRegion :",cleanedDataNicRegion);
-
-
-// create window system

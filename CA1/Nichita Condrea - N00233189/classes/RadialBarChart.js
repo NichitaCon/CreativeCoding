@@ -1,4 +1,4 @@
-class PieChart {
+class RadialBarChart {
     constructor(obj){
         this.data = [...obj.data];
         this.yValue = obj.yValue;

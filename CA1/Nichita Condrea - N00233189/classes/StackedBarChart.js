@@ -125,6 +125,8 @@ class StackedBarChart {
                 tickLength = -10
             }
             let tickIncriment = this.chartHeight / this.ticks;
+
+            
             let multiplier;
             if (this.hundredPercent == false) {
                 multiplier = this.maxNum / this.ticks;
@@ -133,7 +135,6 @@ class StackedBarChart {
             }
              
             for(let i=0; i<=this.ticks; i++){
-                // Can be improved, -10 can be made into a variable
                 line (0, -tickIncriment*i, tickLength, -tickIncriment*i)
 
                 push();
